@@ -10,7 +10,6 @@ import (
 	"otpapp-native/models"
 	"otpapp-native/redis"
 	"regexp"
-	"strings"
 )
 
 type (
@@ -23,8 +22,6 @@ type (
 		Code   string `json:"code"`
 	}
 )
-
-var sb strings.Builder
 
 func PhoneRequest(w http.ResponseWriter, r *http.Request) {
 	req, err := ioutil.ReadAll(r.Body)
@@ -54,11 +51,8 @@ func PhoneRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// string builder. somehow ("phone:" + rd.Number) didn't work
-	sb.WriteString("phone:" + rd.Number)
-
 	// get redis phone data
-	red, err := redis.String("GET", sb.String())
+	red, err := redis.String("GET", "phone:"+rd.Number)
 	if err != nil {
 		badRequest("Redis Error", w)
 		log.Printf("Redis GET Error : %+v", err)
@@ -118,7 +112,7 @@ func PhoneRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := redis.String("SET", sb.String(), string(jsonPhone), "EX", 60)
+	res, err := redis.String("SET", "phone:"+rd.Number, string(jsonPhone), "EX", 60)
 	if err != nil {
 		badRequest("Redis SET Error", w)
 		log.Printf("Redis SET Error : %+v", err)
@@ -168,11 +162,8 @@ func PhoneValidate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// string builder. somehow ("phone:" + rd.Number) didn't work
-	sb.WriteString("phone:" + vd.Number)
-
 	// get redis phone data
-	red, err := redis.String("GET", sb.String())
+	red, err := redis.String("GET", "phone:"+vd.Number)
 	if err != nil {
 		badRequest("Redis Error", w)
 		log.Printf("Redis GET Error : %+v", err)
@@ -202,7 +193,7 @@ func PhoneValidate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := redis.Int("DEL", sb.String())
+	res, err := redis.Int("DEL", "phone:"+vd.Number)
 	if err != nil {
 		badRequest("Redis DEL Error", w)
 		log.Printf("Redis DEL Error: %+v", err)
