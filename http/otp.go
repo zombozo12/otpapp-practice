@@ -67,9 +67,9 @@ func PhoneRequest(w http.ResponseWriter, r *http.Request) {
 
 	var rdsPhone redis.RedisPhone
 
-	log.Println(red != "")
+	log.Printf("%#v", len(red))
 
-	if red == "" {
+	if len(red) > 0 {
 		log.Printf("Redis GET key : %s | Value: %+v", "number", red)
 		if err = json.Unmarshal([]byte(red), &rdsPhone); err != nil {
 			badRequest("JSON Unmarshal Error", w)
