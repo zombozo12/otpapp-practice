@@ -10,6 +10,7 @@ import (
 	"otpapp-native/models"
 	"otpapp-native/redis"
 	"regexp"
+	"time"
 )
 
 type (
@@ -60,8 +61,6 @@ func PhoneRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var rdsPhone redis.RedisPhone
-
-	log.Printf("%#v", len(red))
 
 	if len(red) > 0 {
 		log.Printf("Redis GET key : %s | Value: %+v", "number", red)
@@ -233,6 +232,7 @@ func IsPhoneValid(number string) bool {
 
 func OTPGenerator(n int) string {
 	var letters = []rune("1234567890")
+	rand.Seed(time.Now().UnixNano())
 	l := make([]rune, n)
 	for i := range l {
 		l[i] = letters[rand.Intn(len(letters))]
