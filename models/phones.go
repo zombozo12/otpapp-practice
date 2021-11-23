@@ -18,11 +18,11 @@ const (
 	`
 
 	getPhoneByNumberCodeQuery = `
-		SELECT * FROM phones WHERE number = $1 AND code = $2 ORDER BY ASC LIMIT 1
+		SELECT * FROM phones WHERE number = $1 AND code = $2 ORDER BY id ASC LIMIT 1
 	`
 
 	updatePhoneValidateQuery = `
-		UPDATE phones SET validate_at = CURRENT_TIMESTAMP AND expired_at = CURRENT_TIMESTAMP WHERE number = :number AND code = :code RETURNING *
+		UPDATE phones SET validated_at = CURRENT_TIMESTAMP, expired_at = CURRENT_TIMESTAMP, deleted_at = CURRENT_TIMESTAMP WHERE number = :number AND code = :code RETURNING *
 	`
 )
 
