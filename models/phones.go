@@ -30,10 +30,10 @@ type Phones struct {
 	ID          uint64       `json:"id" db:"id" redis:"id"`
 	Number      string       `json:"number" db:"number" redis:"number"`
 	Code        string       `json:"code" db:"code" redis:"code"`
-	CreatedAt   time.Time    `json:"created_at" db:"created_at" redis:"created_at"`
-	UpdatedAt   time.Time    `json:"updated_at" db:"updated_at" redis:"updated_at"`
-	ExpiredAt   time.Time    `json:"expired_at" db:"expired_at" redis:"expired_at"`
-	ValidatedAt time.Time    `json:"validated_at" db:"validated_at" redis:"validated_at"`
+	CreatedAt   sql.NullTime `json:"created_at" db:"created_at" redis:"created_at"`
+	UpdatedAt   sql.NullTime `json:"updated_at" db:"updated_at" redis:"updated_at"`
+	ExpiredAt   sql.NullTime `json:"expired_at" db:"expired_at" redis:"expired_at"`
+	ValidatedAt sql.NullTime `json:"validated_at" db:"validated_at" redis:"validated_at"`
 	DeletedAt   sql.NullTime `json:"deleted_at" db:"deleted_at" redis:"deleted_at"`
 }
 
