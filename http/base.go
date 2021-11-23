@@ -17,7 +17,7 @@ func badRequest(message string, w http.ResponseWriter) {
 
 	response, err := json.Marshal(data)
 	if err != nil {
-		log.Fatalf("Bad Request Error : %+v", err)
+		log.Printf("Bad Request Error : %+v", err)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -27,8 +27,7 @@ func badRequest(message string, w http.ResponseWriter) {
 
 func okResponse(message string, data interface{}, w http.ResponseWriter) {
 	if data == nil {
-		log.Fatalf("OK Response cannot be null")
-		return
+		log.Printf("OK Response should not be null")
 	}
 
 	res := map[string]interface{}{
@@ -38,7 +37,7 @@ func okResponse(message string, data interface{}, w http.ResponseWriter) {
 
 	resJson, err := json.Marshal(res)
 	if err != nil {
-		log.Fatalf("Set OK Error: %+v", err)
+		log.Printf("Set OK Error: %+v", err)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
